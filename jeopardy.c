@@ -1,7 +1,7 @@
 /*
  * Tutorial 3 Jeopardy Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2015, <GROUP MEMBERS>
+ * Copyright (C) 2015, <GROUP MEMBERS: Rayyan Mohammed, Muhammed Khalid, Daniyal Khan>
  * All rights reserved.
  *
  */
@@ -19,28 +19,23 @@
 #define NUM_PLAYERS 4
 
 // Put global environment variables here
-
-// Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
+// Processes user input answer which must include what is or who is and retrieves the answer.
 void tokenize(char *input, char **tokens){
-    
-    char *str;
-
+    char *str; // Holds player answer
     if((str = strtok(input, "")) != NULL)
         if(strcmp(str, "who") != 0 && strcmp(str, "what") != 0)
             return;
-
     if((str = strtok(NULL, "")) != NULL)
         if(strcmp(str, "is") != 0)
             return;
-
     *tokens = strtok(NULL, "\n");
 }
 
-// Displays the game results for each player, their name and final score, ranked from first to last place
+// Displays the results for each play and final score, ranked from first to last place
 void show_results(player *players, int num_players){
-    char name;
-    int gameWinner = 0; 
-    int score; 
+    char name; // Player names
+    int gameWinner = 0;  // Game winner variable
+    int score;  // Keeps track of user score
 
     for(int x = 0; x < num_players; x++) {
         if((int) strlen(players[x].name) > name){
@@ -53,11 +48,11 @@ void show_results(player *players, int num_players){
         }
     }
 
-    printf("The scores are: \n");
+    printf("The scores are: \n"); // Prints all user scores
     for(int x = 0; x < num_players; x++)
         printf("%*s: %d\n", name + 1, players[x].name, players[x].score);
 
-    printf("The winner is: %s", players[gameWinner].name);
+    printf("The winner is: %s", players[gameWinner].name); // Prints game winner
 }
 
 
@@ -72,25 +67,23 @@ int main(void)
     // Display the game introduction and initialize the questions
     initialize_game();
     printf("WELCOME TO THE GAME OF JEOPARDY \n");
-
-    // Prompt for players names
     
-    // initialize each of the players in the array
+    // initialize each of the players in the array and prompts for player names
     for(int x = 0; x < 4; x++) {
         players[x].score = 0;
         printf("Please enter your player name: ");
         scanf("%s", (char *) &players[x].name);
     }
-
     int placeCounter = 0;
-
-    // Perform an infinite loop getting command input from users until game ends
+    
+    // An infinite loop getting command input from users until game ends
     while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
     {
         char player_name[MAX_LEN], game_category[MAX_LEN], correct_Answer[MAX_LEN];
         int score_value;
+        
         // Call functions from the questions and players source files
-        printf("Please enter who's turn it is: ");
+        printf("Please enter which players turn it is: ");
         scanf("%s", player_name);
 
         while (!player_exists(players, NUM_PLAYERS, player_name)) {
@@ -100,16 +93,16 @@ int main(void)
 
         // Execute the game until all questions are answered
         display_categories();
-        printf("\nPlease pick a categorie and a doller amount");
+        printf("\nPlease select a category and a value");
         scanf("%s %d", game_category, &score_value);
         while(already_answered(game_category, score_value)) {
-        printf("Thw question you picked has already been answered. Please pick another question: ");
+        printf("Thw question you selected has been answered. Please select another question: ");
         scanf("%s %d", game_category, &score_value);
         }
         display_question(game_category, score_value);
         
         
-        printf("Please type the correct answer: ");
+        printf("Enter your answer: ");
         fgets (correct_Answer, MAX_LEN, stdin);
         scanf("%[^\n]%*c", correct_Answer);
         if(valid_answer(game_category, score_value, correct_Answer)){
@@ -120,7 +113,7 @@ int main(void)
         show_results(players, NUM_PLAYERS);
         break; 
         }
-        printf("If you want to continue please click enter ...\n");
+        printf("If you want to continue, click enter\n");
 
         // Display the final results and exit
     }
