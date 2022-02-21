@@ -1,7 +1,7 @@
 /*
  * Tutorial 3 Jeopardy Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2015, <GROUP MEMBERS>
+ * Copyright (C) 2015, <GROUP MEMBERS: Rayyan Mohammed, Daniyal Khan, Muhammed Khalid>
  * All rights reserved.
  *
  */
@@ -114,12 +114,11 @@ void display_categories(void)
 void display_question(char *category, int value)
 {
     printf("Question: ");
-    // lookup the question and see if it's already been marked as answered
+    // Checks to see if the question has already been answered
     for(int i = 0; i < NUM_QUESTIONS; ++i)
     {
-        if(!strcmp(questions[i].category, category) && questions[i].value == value)
-        {
-        printf("%s\n", questions[i].question);
+        if(!strcmp(questions[i].category, category) && questions[i].value == value) {
+        	printf("%s\n", questions[i].question);
         }
     }
 
@@ -134,11 +133,11 @@ bool valid_answer(char *category, int value, char *answer)
         if(!strcmp(questions[i].category, category) && questions[i].value == value)
         {
             if (!strcmp(questions[i].answer, answer)) {
-            printf("Correct! Player awarded with $%d\n", questions[i].value);
+            printf("Correct! Player has been awarded with $%d\n", questions[i].value);
                 questions[i].answered = true;
             return true;
             } else {
-                printf("Incorrect! The correct answer is %s\n", questions[i].answer);
+                printf("Incorrect! The correct answer: %s\n", questions[i].answer);
                 questions[i].answered = true;
                 return false;
             }
@@ -148,14 +147,11 @@ bool valid_answer(char *category, int value, char *answer)
 }
 
 // Returns true if the question has already been answered
-bool already_answered(char *category, int value)
-{
+bool already_answered(char *category, int value) {
     // lookup the question and see if it's already been marked as answered
-    for(int i = 0; i < NUM_QUESTIONS; ++i)
-    {
-        if(!strcmp(questions[i].category, category) && questions[i].value == value && questions[i].answered)
-        {
-        return true;
+    for(int i = 0; i < NUM_QUESTIONS; ++i) {
+        if(!strcmp(questions[i].category, category) && questions[i].value == value && questions[i].answered) {
+        	return true;
         }
     }
     return false;
